@@ -3899,6 +3899,8 @@ while jogar_novamente == 's':
   localização_y_do_pais = localização_do_pais['latitude']
   localização_x_do_pais = localização_do_pais['longitude']
 
+  dicas_recebidas = {}
+
 
   tentativas = 20 
 
@@ -3913,14 +3915,14 @@ while jogar_novamente == 's':
 
     if int(qual_dica) == 1:
         tentativas = tentativas - 3
-        letra = sorteia_letra(capital, lista_restritra)
-        if letra not in lista_restritra:
-          lista_restritra.append(letra)
+        letra = sorteia_letra(capital, lista_restritra_de_letras)
+        if letra not in lista_restritra_de_letras:
+          lista_restritra_de_letras.append(letra)
         else:
-          while letra in lista_restritra:
-            letra = sorteia_letra(capital, lista_restritra)
-        dicas_recebidas['letras da capital'] = ', '.join(lista_restritra)
-        print('letras da capital: {}'.format(', '.join(lista_restritra)))
+          while letra in lista_restritra_de_letras:
+            letra = sorteia_letra(capital, lista_restritra_de_letras)
+        dicas_recebidas['letras da capital'] = ', '.join(lista_restritra_de_letras)
+        print('letras da capital: {}'.format(', '.join(lista_restritra_de_letras)))
 
     elif int(qual_dica) == 2:
       print('a fazer a dica da bandeira')
