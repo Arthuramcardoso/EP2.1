@@ -3885,6 +3885,21 @@ while jogar_novamente == 's':
   dados_processados = normaliza(dados)
   dados_do_pais = dados_processados[pais_sorteado]
 
+  #variaveis utilizadas para dicas:
+  capital = dados_do_pais['capital']
+  lista_restrita_de_letras = []
+
+  area_do_pais = dados_do_pais['area']
+
+  população_do_pais = dados_do_pais['populacao']
+
+  continente_do_pais = dados_do_pais['continente']
+
+  localização_do_pais = dados_do_pais['geo']
+  localização_y_do_pais = localização_do_pais['latitude']
+  localização_x_do_pais = localização_do_pais['longitude']
+
+
   tentativas = 20 
 
   while tentativas > 0:
@@ -3893,7 +3908,39 @@ while jogar_novamente == 's':
     chute = input('Digite o pais que deseja chutar, "dica"/"dicas" para comprar uma dica ou "desisto"/"desistir" para desistir do jogo: ')
   
   if chute.lower() == 'dica' or chute.lower == 'dicas':
+    qual_dica = input('Escolha sua opção [0|1|2|3|4|5]: ')
     print('colocar menu de dicas')
+
+    if int(qual_dica) == 1:
+        tentativas = tentativas - 3
+        letra = sorteia_letra(capital, lista_restritra)
+        if letra not in lista_restritra:
+          lista_restritra.append(letra)
+        else:
+          while letra in lista_restritra:
+            letra = sorteia_letra(capital, lista_restritra)
+        dicas_recebidas['letras da capital'] = ', '.join(lista_restritra)
+        print('letras da capital: {}'.format(', '.join(lista_restritra)))
+
+    elif int(qual_dica) == 2:
+      print('a fazer a dica da bandeira')
+
+    elif int(qual_dica) == 3:
+      tentativas = tentativas - 5
+      print('população: {}'.format(população_do_pais))
+      dicas_recebidas['população'] = população_do_pais
+
+    elif int(qual_dica) == 4:
+      tentativas = tentativas - 6
+      print('área: {}'.format(area_do_pais))
+      dicas_recebidas['área'] = area_do_pais
+
+    elif int(qual_dica) == 5:
+      tentativas = tentativas - 7
+      print('continente: {}'.format(continente_do_pais))
+      dicas_recebidas['continente'] = continente_do_pais
+      
+
 
   elif chute.lower() == 'desisto' or chute.lower == 'desistir':
     print('mensagem para quando desistir')
