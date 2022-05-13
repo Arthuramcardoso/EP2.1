@@ -3874,3 +3874,10 @@ dados = {
     }
   }
 }
+
+jogar_novamente = 's'
+
+while jogar_novamente == 's':
+#iniciar o jogo
+  jogar_novamente = 'n'
+  
