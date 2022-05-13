@@ -56,6 +56,7 @@ def sorteia_letra (palavra, lista_restrita):
         
     return letra
 
-def haversine(r, y1, x1, y2, x2):    
+def haversine(r, y1, x1, y2, x2):
     d = (r*2*math.atan2(math.sqrt(math.sin(math.radians(y2-y1)/2)**2+math.cos(math.radians(y1))*math.cos(math.radians(y2))*math.sin(math.radians(x2-x1)/2)**2),math.sqrt(1-(math.sin(math.radians(y2-y1)/2)**2+math.cos(math.radians(y1))*math.cos(math.radians(y2))*math.sin(math.radians(x2-x1)/2)**2))))
     return d
+
