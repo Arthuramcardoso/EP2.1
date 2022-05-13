@@ -3880,6 +3880,7 @@ jogar_novamente = 's'
 while jogar_novamente == 's':
   jogar_novamente = 'n'
   #iniciar o jogo
+  #imprimir lista de comandos
   pais_sorteado = sorteia_pais(dados_processados)
   dados_processados = normaliza(dados)
   dados_do_pais = dados_processados[pais_sorteado]
@@ -3888,5 +3889,21 @@ while jogar_novamente == 's':
 
   while tentativas > 0:
     #começa o jogo
-    chute = input('Digite o pais que deseja chutar')
+    #imprimir distancias e dicas ja descobertas
+    chute = input('Digite o pais que deseja chutar, "dica"/"dicas" para comprar uma dica ou "desisto"/"desistir" para desistir do jogo: ')
   
+  if chute.lower() == 'dica' or chute.lower == 'dicas':
+    print('colocar menu de dicas')
+
+  elif chute.lower() == 'desisto' or chute.lower == 'desistir':
+    print('mensagem para quando desistir')
+    jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
+
+  else:
+    #verificar se o chute esta nos dados
+    print('em ordem colocar a lista da distancia de cada pais para o objetivo')
+    tentativas = tentativas - 1
+    #se o chute for igual ao pais imprimir mensagem de vitoria e jogar novamente
+
+    #caso não esteja nos dados
+    print('mensagem avisando q a opção esta invalida e perguntar novamente')
