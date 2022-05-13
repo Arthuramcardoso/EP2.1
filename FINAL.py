@@ -3878,6 +3878,15 @@ dados = {
 jogar_novamente = 's'
 
 while jogar_novamente == 's':
-#iniciar o jogo
   jogar_novamente = 'n'
+  #iniciar o jogo
+  pais_sorteado = sorteia_pais(dados_processados)
+  dados_processados = normaliza(dados)
+  dados_do_pais = dados_processados[pais_sorteado]
+
+  tentativas = 20 
+
+  while tentativas > 0:
+    #começa o jogo
+    chute = input('Digite o pais que deseja chutar')
   
