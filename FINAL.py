@@ -3881,10 +3881,18 @@ while jogar_novamente == 's':
   jogar_novamente = 'n'
   #iniciar o jogo
   #imprimir lista de comandos
+
+  r = 6371
+  
   pais_sorteado = sorteia_pais(dados_processados)
   dados_processados = normaliza(dados)
   dados_do_pais = dados_processados[pais_sorteado]
   lista_de_chutes = []
+  lista_de_todos_os_paises = []
+
+  for j in dados_processados.keys():
+    lista_de_todos_os_paises.append([j])
+
   #variaveis utilizadas para dicas:
   capital = dados_do_pais['capital']
   lista_restrita_de_letras = []
@@ -3913,16 +3921,34 @@ while jogar_novamente == 's':
     qual_dica = input('Escolha sua opção [0|1|2|3|4|5]: ')
     print('colocar menu de dicas')
 
+    if tentativas == 7:
+      qual_dica = input('Escolha sua opção [0|1|2|3|4]: ')
+    
+    elif tentativas == 6:
+      qual_dica == input('Escolha sua opção [0|1|2|3]: ')
+    
+    elif tentativas == 5:
+      qual_dica = input('Escolha sua opção [0|1|2]: ')
+
+    elif tentativas == 4:
+      qual_dica = input('Escolha sua opção [0|1]: ')
+
+    elif tentativas == 3:
+      qual_dica = input('Escolha sua opção [0]: ')
+
+    
+
+
     if int(qual_dica) == 1:
         tentativas = tentativas - 3
-        letra = sorteia_letra(capital, lista_restritra_de_letras)
-        if letra not in lista_restritra_de_letras:
-          lista_restritra_de_letras.append(letra)
+        letra = sorteia_letra(capital, lista_restrita_de_letras)
+        if letra not in lista_restrita_de_letras:
+          lista_restrita_de_letras.append(letra)
         else:
-          while letra in lista_restritra_de_letras:
-            letra = sorteia_letra(capital, lista_restritra_de_letras)
-        dicas_recebidas['letras da capital'] = ', '.join(lista_restritra_de_letras)
-        print('letras da capital: {}'.format(', '.join(lista_restritra_de_letras)))
+          while letra in lista_restrita_de_letras:
+            letra = sorteia_letra(capital, lista_restrita_de_letras)
+        dicas_recebidas['letras da capital'] = ', '.join(lista_restrita_de_letras)
+        print('letras da capital: {}'.format(', '.join(lista_restrita_de_letras)))
 
     elif int(qual_dica) == 2:
       print('a fazer a dica da bandeira')
