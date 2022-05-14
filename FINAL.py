@@ -3884,7 +3884,7 @@ while jogar_novamente == 's':
   pais_sorteado = sorteia_pais(dados_processados)
   dados_processados = normaliza(dados)
   dados_do_pais = dados_processados[pais_sorteado]
-
+  lista_de_chutes = []
   #variaveis utilizadas para dicas:
   capital = dados_do_pais['capital']
   lista_restrita_de_letras = []
