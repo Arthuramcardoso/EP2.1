@@ -3950,6 +3950,15 @@ while jogar_novamente == 's':
 
   else:
     #verificar se o chute esta nos dados
+    if esta_na_lista(chute.lower(), lista_de_todos_os_paises):
+
+        dados_do_chute = dados_processados[chute]
+        localização_do_chute = dados_do_chute['geo']
+        localização_y_do_chute = localização_do_chute['latitude']
+        localização_x_do_chute = localização_do_chute['longitude']
+        distância_do_chute = haversine(r, localização_y_do_pais, localização_x_do_pais, localização_y_do_chute, localização_x_do_chute)
+
+        lista_de_chutes = adiciona_em_ordem(chute, distância_do_chute, lista_de_chutes)
     print('em ordem colocar a lista da distancia de cada pais para o objetivo')
     tentativas = tentativas - 1
     #se o chute for igual ao pais imprimir mensagem de vitoria e jogar novamente
