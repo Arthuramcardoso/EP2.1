@@ -60,6 +60,16 @@ def haversine(r, y1, x1, y2, x2):
     d = (r*2*math.atan2(math.sqrt(math.sin(math.radians(y2-y1)/2)**2+math.cos(math.radians(y1))*math.cos(math.radians(y2))*math.sin(math.radians(x2-x1)/2)**2),math.sqrt(1-(math.sin(math.radians(y2-y1)/2)**2+math.cos(math.radians(y1))*math.cos(math.radians(y2))*math.sin(math.radians(x2-x1)/2)**2))))
     return d
 
+def sorteia_cor (cores_da_bandeira, lista_restrita):
+  cores_possiveis = []
+  for w,s in cores_da_bandeira.items():
+    if s != 0 and w != 'outras' and w not in lista_restrita:
+      cores_possiveis.append(w)
+  if cores_possiveis == []:
+    return 1
+  cor_sorteada = random.choice(cores_possiveis)
+  return cor_sorteada
+
 dados = {
   "asia": {
     "afeganistao": {
@@ -3877,15 +3887,14 @@ dados = {
 
 jogar_novamente = 's'
 
+r = 6371
+
 while jogar_novamente == 's':
   jogar_novamente = 'n'
-  #iniciar o jogo
-  #imprimir lista de comandos
-
-  r = 6371
+  #iniciar o jogo)  
   
-  pais_sorteado = sorteia_pais(dados_processados)
   dados_processados = normaliza(dados)
+  pais_sorteado = sorteia_pais(dados_processados)
   dados_do_pais = dados_processados[pais_sorteado]
   lista_de_chutes = []
   lista_de_todos_os_paises = []
@@ -3896,6 +3905,9 @@ while jogar_novamente == 's':
   #variaveis utilizadas para dicas:
   capital = dados_do_pais['capital']
   lista_restrita_de_letras = []
+  lista_restrita_de_cores = []
+
+  cores_da_bandeira = dados_do_pais['bandeira']
 
   area_do_pais = dados_do_pais['area']
 
@@ -3921,7 +3933,21 @@ while jogar_novamente == 's':
 
   while tentativas > 0:
     #começa o jogo
-    #imprimir distancias e dicas ja descobertas
+    print('\nVocê tem {} tentativas restantes!'.format(tentativas))
+    if lista_de_chutes != [] and pais_tentado == 1:
+      print('-------------------------------------')
+      print('DISTANCIAS: \n')
+      for pais_distancia in lista_de_chutes:
+        print('     {} está a {:.0f} KM do objetivo'.format(pais_distancia[0],pais_distancia[1]))
+      print ('-------------------------------------')
+    if dicas_recebidas != {} and pais_tentado == 1:
+      print('-------------------------------------')
+      print('DICAS: \n')
+      for k,l in dicas_recebidas.items():
+        printdicas = '{}: {}'.format(k, l)
+        print('     ',printdicas)
+      print('-------------------------------------')
+
     chute = input('Digite o pais que deseja chutar, "dica"/"dicas" para comprar uma dica ou "desisto"/"desistir" para desistir do jogo: ')
   
   if chute.lower() == 'dica' or chute.lower == 'dicas':
@@ -3950,32 +3976,55 @@ while jogar_novamente == 's':
 
 
     if int(qual_dica) == 1:
-        tentativas = tentativas - 3
-        letra = sorteia_letra(capital, lista_restrita_de_letras)
-        if letra not in lista_restrita_de_letras:
-          lista_restrita_de_letras.append(letra)
-        else:
-          while letra in lista_restrita_de_letras:
-            letra = sorteia_letra(capital, lista_restrita_de_letras)
-        dicas_recebidas['letras da capital'] = ', '.join(lista_restrita_de_letras)
-        print('letras da capital: {}'.format(', '.join(lista_restrita_de_letras)))
+      pais_tentado = 1
+      tentativas = tentativas - 3
+      letra = sorteia_letra(capital, lista_restrita_de_letras)
+      if letra not in lista_restrita_de_letras:
+        lista_restrita_de_letras.append(letra)
+      else:
+        while letra in lista_restrita_de_letras:
+          letra = sorteia_letra(capital, lista_restrita_de_letras)
+      dicas_recebidas['letras da capital'] = ', '.join(lista_restrita_de_letras)
+      print('letras da capital: {}'.format(', '.join(lista_restrita_de_letras)))
 
     elif int(qual_dica) == 2:
-      print('a fazer a dica da bandeira')
+      pais_tentado = 1
+      tentativas = tentativas - 4
+      cor_sorteada = sorteia_cor(cores_da_bandeira, lista_restrita_de_cores)
+      if cor_sorteada == 1:
+        lista_dicas.remove(2)
+        print('\nCores da bandeira esgotadas')
+        tentativas = tentativas + 4
+      elif cor_sorteada not in lista_restrita_de_cores:
+        lista_restrita_de_cores.append(cor_sorteada)
+        print('\ncores da bandeira: {}\n'.format(', '.join(lista_restrita_de_cores)))
+      else:
+        while cor_sorteada in lista_restrita_de_cores:
+          cor_sorteada = sorteia_cor(cores_da_bandeira, lista_restrita_de_cores)            
+      dicas_recebidas['cores da bandeira'] = ', '.join(lista_restrita_de_cores)
 
     elif int(qual_dica) == 3:
+      pais_tentado = 1
+      if 3 in lista_dicas:
+        lista_dicas.remove(3)
       tentativas = tentativas - 5
       lista_dicas.remove(3)
       print('população: {}'.format(população_do_pais))
       dicas_recebidas['população'] = população_do_pais
 
     elif int(qual_dica) == 4:
+      pais_tentado = 1
+      if 3 in lista_dicas:
+        lista_dicas.remove(4)
       tentativas = tentativas - 6
       lista_dicas.remove(4)
       print('área: {}'.format(area_do_pais))
       dicas_recebidas['área'] = area_do_pais
 
     elif int(qual_dica) == 5:
+      pais_tentado = 1
+      if 3 in lista_dicas:
+        lista_dicas.remove(5)
       tentativas = tentativas - 7
       lista_dicas.remove(5)
       print('continente: {}'.format(continente_do_pais))
@@ -3990,24 +4039,24 @@ while jogar_novamente == 's':
   else:
     #verificar se o chute esta nos dados
     if esta_na_lista(chute.lower(), lista_de_todos_os_paises):
+      pais_tentado = 1
 
-        dados_do_chute = dados_processados[chute]
-        localização_do_chute = dados_do_chute['geo']
-        localização_y_do_chute = localização_do_chute['latitude']
-        localização_x_do_chute = localização_do_chute['longitude']
-        distância_do_chute = haversine(r, localização_y_do_pais, localização_x_do_pais, localização_y_do_chute, localização_x_do_chute)
+      dados_do_chute = dados_processados[chute]
+      localização_do_chute = dados_do_chute['geo']
+      localização_y_do_chute = localização_do_chute['latitude']
+      localização_x_do_chute = localização_do_chute['longitude']
+      distância_do_chute = haversine(r, localização_y_do_pais, localização_x_do_pais, localização_y_do_chute, localização_x_do_chute)
 
         lista_de_chutes = adiciona_em_ordem(chute, distância_do_chute, lista_de_chutes)
-    print('em ordem colocar a lista da distancia de cada pais para o objetivo')
-    tentativas = tentativas - 1
-    if chute == pais_sorteado:
-          print('\nVOCÊ GANHOU!!!\n')
-          jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
-          tentativas = 0
+      print('em ordem colocar a lista da distancia de cada pais para o objetivo')
+      tentativas = tentativas - 1
+      if chute == pais_sorteado:
+        print('\nVOCÊ GANHOU!!!\n')
+        jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
+        tentativas = 0
     else:
-        print('\nPor favor selecione uma opção valida')
-        pais_tentado = 0
-    #se o chute for igual ao pais imprimir mensagem de vitoria e jogar novamente
+      print('\nPor favor selecione uma opção valida')
+      pais_tentado = 0
 
     #caso não esteja nos dados
     print('mensagem avisando q a opção esta invalida e perguntar novamente')
