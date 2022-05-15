@@ -3891,6 +3891,8 @@ r = 6371
 
 while jogar_novamente == 's':
   jogar_novamente = 'n'
+  desistiu = 'n'
+  ganhou = 'n'
   #iniciar o jogo)  
   
   dados_processados = normaliza(dados)
@@ -3921,7 +3923,7 @@ while jogar_novamente == 's':
 
   lista_dicas = [0, 1, 2, 3, 4, 5]
 
-  dicas = ['     0. Sem dicas', '     1. Letra da capital    - custa 3 tentativas'
+  dicas = ['     0. Sem dicas/inventario', '     1. Letra da capital    - custa 3 tentativas'
           ,'     2. Cor da Bandeira     - custa 4 tentativas','     3. população           - custa 5 tentativas'
           ,'     4. Área                - custa 6 tentativas','     5. continente          - custa 7 tentativas' ]
 
@@ -3950,112 +3952,133 @@ while jogar_novamente == 's':
 
     chute = input('Digite o pais que deseja chutar, "dica"/"dicas" para comprar uma dica ou "desisto"/"desistir" para desistir do jogo: ')
   
-  if chute == 'dica' or chute.lower == 'dicas':
-    qual_dica = input('Escolha sua opção {}: '.format(lista_dicas))
-    print('colocar menu de dicas')
+    if chute.lower() == 'dica' or chute.lower() == 'dicas':
 
-    if tentativas <= 7:
-      lista_dicas.remove(5)
-    
-    elif tentativas <= 6:
-      lista_dicas.remove(4)
-    
-    elif tentativas <= 5:
-      lista_dicas.remove(3)
-
-    elif tentativas <= 4:
-      lista_dicas.remove(2)
-
-    elif tentativas <= 3:
-      lista_dicas.remove(1)
-
-    for i in lista_dicas:
-      print(dicas[i])
-
-    
-
-
-    if int(qual_dica) == 1:
-      pais_tentado = 1
-      tentativas = tentativas - 3
-      letra = sorteia_letra(capital, lista_restrita_de_letras)
-      if letra not in lista_restrita_de_letras:
-        lista_restrita_de_letras.append(letra)
-      else:
-        while letra in lista_restrita_de_letras:
-          letra = sorteia_letra(capital, lista_restrita_de_letras)
-      dicas_recebidas['letras da capital'] = ', '.join(lista_restrita_de_letras)
-      print('letras da capital: {}'.format(', '.join(lista_restrita_de_letras)))
-
-    elif int(qual_dica) == 2:
-      pais_tentado = 1
-      tentativas = tentativas - 4
-      cor_sorteada = sorteia_cor(cores_da_bandeira, lista_restrita_de_cores)
-      if cor_sorteada == 1:
-        lista_dicas.remove(2)
-        print('\nCores da bandeira esgotadas')
-        tentativas = tentativas + 4
-      elif cor_sorteada not in lista_restrita_de_cores:
-        lista_restrita_de_cores.append(cor_sorteada)
-        print('\ncores da bandeira: {}\n'.format(', '.join(lista_restrita_de_cores)))
-      else:
-        while cor_sorteada in lista_restrita_de_cores:
-          cor_sorteada = sorteia_cor(cores_da_bandeira, lista_restrita_de_cores)            
-      dicas_recebidas['cores da bandeira'] = ', '.join(lista_restrita_de_cores)
-
-    elif int(qual_dica) == 3:
-      pais_tentado = 1
-      if 3 in lista_dicas:
-        lista_dicas.remove(3)
-      tentativas = tentativas - 5
-      lista_dicas.remove(3)
-      print('população: {}'.format(população_do_pais))
-      dicas_recebidas['população'] = população_do_pais
-
-    elif int(qual_dica) == 4:
-      pais_tentado = 1
-      if 3 in lista_dicas:
-        lista_dicas.remove(4)
-      tentativas = tentativas - 6
-      lista_dicas.remove(4)
-      print('área: {}'.format(area_do_pais))
-      dicas_recebidas['área'] = area_do_pais
-
-    elif int(qual_dica) == 5:
-      pais_tentado = 1
-      if 3 in lista_dicas:
-        lista_dicas.remove(5)
-      tentativas = tentativas - 7
-      lista_dicas.remove(5)
-      print('continente: {}'.format(continente_do_pais))
-      dicas_recebidas['continente'] = continente_do_pais
       
 
+      if tentativas <= 7:
+        if 5 in lista_dicas:
+          lista_dicas.remove(5)
+      
+      if tentativas <= 6:
+        if 4 in lista_dicas:
+          lista_dicas.remove(4)
+      
+      if tentativas <= 5:
+        if 3 in lista_dicas:
+          lista_dicas.remove(3)
 
-  elif chute.lower() == 'desisto' or chute.lower == 'desistir':
-    print('mensagem para quando desistir')
-    jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
+      if tentativas <= 4:
+          lista_dicas.remove(2)
 
-  else:
-    #verificar se o chute esta nos dados
-    if esta_na_lista(chute.lower(), lista_de_todos_os_paises):
-      pais_tentado = 1
+      if tentativas <= 3:
+          lista_dicas.remove(1)
 
-      dados_do_chute = dados_processados[chute]
-      localização_do_chute = dados_do_chute['geo']
-      localização_y_do_chute = localização_do_chute['latitude']
-      localização_x_do_chute = localização_do_chute['longitude']
-      distância_do_chute = haversine(r, localização_y_do_pais, localização_x_do_pais, localização_y_do_chute, localização_x_do_chute)
-      lista_de_chutes = adiciona_em_ordem(chute, distância_do_chute, lista_de_chutes)
-      print('em ordem colocar a lista da distancia de cada pais para o objetivo')
-      tentativas = tentativas - 1
-      if chute == pais_sorteado:
-        print('\nVOCÊ GANHOU!!!\n')
-        jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
-        tentativas = 0
+      print('')
+      for i in lista_dicas:
+        print(dicas[i])
+
+      strr = '{}'.format(lista_dicas)
+      strr = strr.replace(',', '|')
+      strr = strr.replace(' ', '')
+      qual_dica = input('\nEscolha sua opção {}: '.format(strr))
+
+      while qual_dica not in str(lista_dicas):
+        print('\nPor favor selecione uma das opções')
+        qual_dica = input('\nEscolha sua opção {}: '.format(strr))
+
+      if int(qual_dica) == 1:
+        pais_tentado = 1
+        tentativas = tentativas - 3
+        letra = sorteia_letra(capital, lista_restrita_de_letras)
+        if letra not in lista_restrita_de_letras:
+          lista_restrita_de_letras.append(letra)
+        else:
+          while letra in lista_restrita_de_letras:
+            letra = sorteia_letra(capital, lista_restrita_de_letras)
+        dicas_recebidas['letras da capital'] = ', '.join(lista_restrita_de_letras)
+        print('letras da capital: {}'.format(', '.join(lista_restrita_de_letras)))
+
+      elif int(qual_dica) == 2:
+        pais_tentado = 1
+        tentativas = tentativas - 4
+        cor_sorteada = sorteia_cor(cores_da_bandeira, lista_restrita_de_cores)
+        if cor_sorteada == 1:
+          lista_dicas.remove(2)
+          print('\nCores da bandeira esgotadas')
+          tentativas = tentativas + 4
+        elif cor_sorteada not in lista_restrita_de_cores:
+          lista_restrita_de_cores.append(cor_sorteada)
+          print('\ncores da bandeira: {}\n'.format(', '.join(lista_restrita_de_cores)))
+        else:
+          while cor_sorteada in lista_restrita_de_cores:
+            cor_sorteada = sorteia_cor(cores_da_bandeira, lista_restrita_de_cores)            
+        dicas_recebidas['cores da bandeira'] = ', '.join(lista_restrita_de_cores)
+
+      elif int(qual_dica) == 3:
+        pais_tentado = 1
+        if 3 in lista_dicas:
+          lista_dicas.remove(3)
+        tentativas = tentativas - 5
+        dicas_recebidas['população'] = população_do_pais
+
+      elif int(qual_dica) == 4:
+        pais_tentado = 1
+        if 3 in lista_dicas:
+          lista_dicas.remove(4)
+        tentativas = tentativas - 6
+        dicas_recebidas['área'] = area_do_pais
+
+      elif int(qual_dica) == 5:
+        pais_tentado = 1
+        if 3 in lista_dicas:
+          lista_dicas.remove(5)
+        tentativas = tentativas - 7
+        dicas_recebidas['continente'] = continente_do_pais
+
+      elif int(qual_dica) == 0:
+        tentativas = tentativas
+        pais_tentado = 1
+
+      else:
+        print('\nopção de dica invalida')
+        
+
+
+    elif chute.lower() == 'desisto' or chute.lower == 'desistir':
+      tentativas = 0
+      print('\nnão foi dessa vez, o pais era: {}\n'.format(pais_sorteado))
+      desistiu = 's'
+      jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
+
     else:
-      print('\nPor favor selecione uma opção valida')
-      pais_tentado = 0
+      #verificar se o chute esta nos dados
+      if esta_na_lista(chute, lista_de_todos_os_paises):
+        pais_tentado = 1
 
-    #caso não esteja nos dados
-    print('mensagem avisando q a opção esta invalida e perguntar novamente')
+        dados_do_chute = dados_processados[chute]
+        localização_do_chute = dados_do_chute['geo']
+        localização_y_do_chute = localização_do_chute['latitude']
+        localização_x_do_chute = localização_do_chute['longitude']
+        distância_do_chute = haversine(r, localização_y_do_pais, localização_x_do_pais, localização_y_do_chute, localização_x_do_chute)
+        paises_chutados = []
+        for h in lista_de_chutes:
+          paises_chutados.append(h[0])
+        if chute not in paises_chutados:
+          lista_de_chutes = adiciona_em_ordem(chute, distância_do_chute, lista_de_chutes)
+        tentativas = tentativas - 1
+
+        if chute == pais_sorteado:
+          ganhou = 's'
+          print('\nVOCÊ GANHOU!!!\n')
+          jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
+          tentativas = 0
+          
+
+      else:
+        print('\nPor favor selecione uma opção valida')
+        pais_tentado = 0
+
+    if ganhou == 'n' and desistiu == 'n' and tentativas == 0:
+      print('\nacabaram as tentativas, a resposta era {}\n'.format(pais_sorteado))
+      jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
