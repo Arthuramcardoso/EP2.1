@@ -3935,12 +3935,19 @@ while jogar_novamente == 's':
 
   while tentativas > 0:
     #começa o jogo
-    print('\nVocê tem {} tentativas restantes!'.format(tentativas))
+    print('\nVocê tem \33[0;34;40m{}\33[0;37;40m tentativas restantes!'.format(tentativas))
     if lista_de_chutes != [] and pais_tentado == 1:
       print('-------------------------------------')
       print('DISTANCIAS: \n')
       for pais_distancia in lista_de_chutes:
-        print('     {} está a {:.0f} KM do objetivo'.format(pais_distancia[0],pais_distancia[1]))
+        if pais_distancia[1]<=500:
+          print('     \33[0;36;40m{} está a {:.0f} KM do objetivo\33[0;37;40m'.format(pais_distancia[0],pais_distancia[1]))
+        elif pais_distancia[1]<=1000:
+          print('     \33[0;32;40m{} está a {:.0f} KM do objetivo\33[0;37;40m'.format(pais_distancia[0],pais_distancia[1]))
+        elif pais_distancia[1]<=5000:
+          print('     \33[0;33;40m{} está a {:.0f} KM do objetivo\33[0;37;40m'.format(pais_distancia[0],pais_distancia[1]))
+        else:
+          print('     \33[0;31;40m{} está a {:.0f} KM do objetivo\33[0;37;40m'.format(pais_distancia[0],pais_distancia[1]))
       print ('-------------------------------------')
     if dicas_recebidas != {} and pais_tentado == 1:
       print('-------------------------------------')
@@ -3950,7 +3957,7 @@ while jogar_novamente == 's':
         print('     ',printdicas)
       print('-------------------------------------')
 
-    chute = input('Digite o pais que deseja chutar, "dica"/"dicas" para comprar uma dica ou "desisto"/"desistir" para desistir do jogo: ')
+    chute = input('Digite o \33[0;34;40mpais\33[0;37;40m que deseja chutar, \33[0;34;40m"dica"/"dicas"\33[0;37;40m para comprar uma dica ou \33[0;34;40m"desisto"/"desistir"\33[0;37;40m para desistir do jogo: ')
   
     if chute.lower() == 'dica' or chute.lower() == 'dicas':
 
@@ -3984,7 +3991,7 @@ while jogar_novamente == 's':
       qual_dica = input('\nEscolha sua opção {}: '.format(strr))
 
       while qual_dica not in str(lista_dicas):
-        print('\nPor favor selecione uma das opções')
+        print('\n\33[0;31;40mPor favor selecione uma das opções\33[0;37;40m')
         qual_dica = input('\nEscolha sua opção {}: '.format(strr))
 
       if int(qual_dica) == 1:
@@ -3997,7 +4004,6 @@ while jogar_novamente == 's':
           while letra in lista_restrita_de_letras:
             letra = sorteia_letra(capital, lista_restrita_de_letras)
         dicas_recebidas['letras da capital'] = ', '.join(lista_restrita_de_letras)
-        print('letras da capital: {}'.format(', '.join(lista_restrita_de_letras)))
 
       elif int(qual_dica) == 2:
         pais_tentado = 1
@@ -4005,11 +4011,10 @@ while jogar_novamente == 's':
         cor_sorteada = sorteia_cor(cores_da_bandeira, lista_restrita_de_cores)
         if cor_sorteada == 1:
           lista_dicas.remove(2)
-          print('\nCores da bandeira esgotadas')
+          print('\n\33[0;31;40mCores da bandeira esgotadas\33[0;37;40m')
           tentativas = tentativas + 4
         elif cor_sorteada not in lista_restrita_de_cores:
           lista_restrita_de_cores.append(cor_sorteada)
-          print('\ncores da bandeira: {}\n'.format(', '.join(lista_restrita_de_cores)))
         else:
           while cor_sorteada in lista_restrita_de_cores:
             cor_sorteada = sorteia_cor(cores_da_bandeira, lista_restrita_de_cores)            
@@ -4041,13 +4046,13 @@ while jogar_novamente == 's':
         pais_tentado = 1
 
       else:
-        print('\nopção de dica invalida')
+        print('\n\33[0;31;40mopção de dica invalida\33[0;37;40m')
         
 
 
     elif chute.lower() == 'desisto' or chute.lower == 'desistir':
       tentativas = 0
-      print('\nnão foi dessa vez, o pais era: {}\n'.format(pais_sorteado))
+      print('\nnão foi dessa vez, o pais era: \33[0;34;40m{}\33[0;37;40m\n'.format(pais_sorteado))
       desistiu = 's'
       jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
 
@@ -4070,15 +4075,15 @@ while jogar_novamente == 's':
 
         if chute == pais_sorteado:
           ganhou = 's'
-          print('\nVOCÊ GANHOU!!!\n')
+          print('\n\33[0;32;40mVOCÊ GANHOU!!!\33[0;37;40m\n')
           jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
           tentativas = 0
           
 
       else:
-        print('\nPor favor selecione uma opção valida')
+        print('\n\33[0;31;40mPor favor selecione uma opção valida\33[0;37;40m')
         pais_tentado = 0
 
     if ganhou == 'n' and desistiu == 'n' and tentativas == 0:
-      print('\nacabaram as tentativas, a resposta era {}\n'.format(pais_sorteado))
+      print('\nacabaram as tentativas, a resposta era \33[0;34;40m{}\33[0;37;40m\n'.format(pais_sorteado))
       jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
