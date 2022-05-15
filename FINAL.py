@@ -3950,7 +3950,7 @@ while jogar_novamente == 's':
 
     chute = input('Digite o pais que deseja chutar, "dica"/"dicas" para comprar uma dica ou "desisto"/"desistir" para desistir do jogo: ')
   
-  if chute.lower() == 'dica' or chute.lower == 'dicas':
+  if chute == 'dica' or chute.lower == 'dicas':
     qual_dica = input('Escolha sua opção {}: '.format(lista_dicas))
     print('colocar menu de dicas')
 
@@ -4046,8 +4046,7 @@ while jogar_novamente == 's':
       localização_y_do_chute = localização_do_chute['latitude']
       localização_x_do_chute = localização_do_chute['longitude']
       distância_do_chute = haversine(r, localização_y_do_pais, localização_x_do_pais, localização_y_do_chute, localização_x_do_chute)
-
-        lista_de_chutes = adiciona_em_ordem(chute, distância_do_chute, lista_de_chutes)
+      lista_de_chutes = adiciona_em_ordem(chute, distância_do_chute, lista_de_chutes)
       print('em ordem colocar a lista da distancia de cada pais para o objetivo')
       tentativas = tentativas - 1
       if chute == pais_sorteado:
