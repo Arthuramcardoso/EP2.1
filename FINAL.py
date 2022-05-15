@@ -3907,6 +3907,13 @@ while jogar_novamente == 's':
   localização_y_do_pais = localização_do_pais['latitude']
   localização_x_do_pais = localização_do_pais['longitude']
 
+  lista_dicas = [0, 1, 2, 3, 4, 5]
+
+  dicas = ['     0. Sem dicas', '     1. Letra da capital    - custa 3 tentativas'
+          ,'     2. Cor da Bandeira     - custa 4 tentativas','     3. população           - custa 5 tentativas'
+          ,'     4. Área                - custa 6 tentativas','     5. continente          - custa 7 tentativas' ]
+
+
   dicas_recebidas = {}
 
 
@@ -3918,31 +3925,28 @@ while jogar_novamente == 's':
     chute = input('Digite o pais que deseja chutar, "dica"/"dicas" para comprar uma dica ou "desisto"/"desistir" para desistir do jogo: ')
   
   if chute.lower() == 'dica' or chute.lower == 'dicas':
-    qual_dica = input('Escolha sua opção [0|1|2|3|4|5]: ')
+    qual_dica = input('Escolha sua opção {}: '.format(lista_dicas))
     print('colocar menu de dicas')
 
-    if tentativas == 7:
-      qual_dica = input('Escolha sua opção [0|1|2|3|4]: ')
+    if tentativas <= 7:
+      lista_dicas.remove(5)
     
-    elif tentativas == 6:
-      qual_dica == input('Escolha sua opção [0|1|2|3]: ')
+    elif tentativas <= 6:
+      lista_dicas.remove(4)
     
-    elif tentativas == 5:
-      qual_dica = input('Escolha sua opção [0|1|2]: ')
+    elif tentativas <= 5:
+      lista_dicas.remove(3)
 
-    elif tentativas == 4:
-      qual_dica = input('Escolha sua opção [0|1]: ')
+    elif tentativas <= 4:
+      lista_dicas.remove(2)
 
-    elif tentativas == 3:
-      qual_dica = input('Escolha sua opção [0]: ')
+    elif tentativas <= 3:
+      lista_dicas.remove(1)
 
-    if dica_5 == 's':
-      qual_dica = input('Escolha sua opção [0|1|2|3|4]')
-    if dica_4 == 's':
-      qual_dica = input('Escolha sua opção [0|1|2|3|5]')
-    if dica_3 == 's':
-      qual_dica = input('Escolha sua opção [0|1|2|4|5]')
+    for i in lista_dicas:
+      print(dicas[i])
 
+    
 
 
     if int(qual_dica) == 1:
@@ -3961,19 +3965,19 @@ while jogar_novamente == 's':
 
     elif int(qual_dica) == 3:
       tentativas = tentativas - 5
-      dica_3 = 's'
+      lista_dicas.remove(3)
       print('população: {}'.format(população_do_pais))
       dicas_recebidas['população'] = população_do_pais
 
     elif int(qual_dica) == 4:
       tentativas = tentativas - 6
-      dica_4 = 's'
+      lista_dicas.remove(4)
       print('área: {}'.format(area_do_pais))
       dicas_recebidas['área'] = area_do_pais
 
     elif int(qual_dica) == 5:
       tentativas = tentativas - 7
-      dica_5 = 's'
+      lista_dicas.remove(5)
       print('continente: {}'.format(continente_do_pais))
       dicas_recebidas['continente'] = continente_do_pais
       
