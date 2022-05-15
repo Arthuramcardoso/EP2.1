@@ -4000,6 +4000,13 @@ while jogar_novamente == 's':
         lista_de_chutes = adiciona_em_ordem(chute, distância_do_chute, lista_de_chutes)
     print('em ordem colocar a lista da distancia de cada pais para o objetivo')
     tentativas = tentativas - 1
+    if chute == pais_sorteado:
+          print('\nVOCÊ GANHOU!!!\n')
+          jogar_novamente = input('Deseja jogar novamente? [s|n]: ')
+          tentativas = 0
+    else:
+        print('\nPor favor selecione uma opção valida')
+        pais_tentado = 0
     #se o chute for igual ao pais imprimir mensagem de vitoria e jogar novamente
 
     #caso não esteja nos dados
